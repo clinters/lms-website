@@ -46,8 +46,8 @@
 <label>Full name<br/>
 <input name="name" required="" style="width:100%;padding:10px;border-radius:10px;border:1px solid rgba(255,255,255,.2);background:rgba(255,255,255,.08);color:#fff" type="text"/>
 </label>
-<label>WhatsApp number (E.164, e.g. +447822034350)<br/>
-<input name="phone" pattern="^\+[1-9]\d{6,14}$" required="" style="width:100%;padding:10px;border-radius:10px;border:1px solid rgba(255,255,255,.2);background:rgba(255,255,255,.08);color:#fff" type="tel"/>
+<label>WhatsApp number (UK: +44… or 07… is fine)<br/>
+<input name="phone" pattern="^(?:\+44\d{9,10}|44\d{9,10}|0\d{10})$" required="" style="width:100%;padding:10px;border-radius:10px;border:1px solid rgba(255,255,255,.2);background:rgba(255,255,255,.08);color:#fff" type="tel"/>
 </label>
 <label>Email (optional)<br/>
 <input name="email" style="width:100%;padding:10px;border-radius:10px;border:1px solid rgba(255,255,255,.2);background:rgba(255,255,255,.08);color:#fff" type="email"/>
@@ -71,20 +71,22 @@
     const banner= document.getElementById('lmsBanner');
 
     function lmsValidate(){
-      const name  = form.name.value.trim();
-      const phone = form.phone.value.trim();
+      const name  = (form.name.value || '').trim();
+      const phone = (form.phone.value || '').trim();
+      // Accept +44XXXXXXXXXX, 44XXXXXXXXXX, or 07XXXXXXXXXX (UK)
+      const ok = /^(?:\+44\d{9,10}|44\d{9,10}|0\d{10})$/.test(phone);
       if (!name){ hint.textContent = 'Please enter your name.'; return false; }
-      if (!/^\+[1-9]\d{6,14}$/.test(phone)){ hint.textContent = 'Use full international format, e.g. +447822034350.'; return false; }
+      if (!ok){ hint.textContent = 'Use +44XXXXXXXXXX, 44XXXXXXXXXX or 07XXXXXXXXXX'; return false; }
       hint.textContent = '';
       banner.style.display = 'none';
-      btn.disabled = true; btn.textContent = 'Submitting…';
+      if (btn){ btn.disabled = true; btn.textContent = 'Submitting…'; }
       return true; // submit to hidden iframe
     }
 
     // Listen for Apps Script postMessage
     window.addEventListener('message', (ev)=>{
       if (!ev.data || ev.data.lmsForm === undefined) return;
-      btn.disabled = false; btn.textContent = 'Register';
+      if (btn){ btn.disabled = false; btn.textContent = 'Register'; }
       if (ev.data.lmsForm === 'ok'){
         banner.style.display = 'block';
         banner.style.borderColor = 'rgba(0,224,145,.35)';
@@ -100,7 +102,7 @@
         banner.textContent = '⚠️ ' + (ev.data.message || 'There was a problem. Please try again.');
       }
     });
-  </script>
+</script>
 </section>
 <main>
 <section>
@@ -245,7 +247,6 @@ If you have any questions about this Privacy Policy, contact:<br>
     document.getElementById('lmsOverlay').style.display = 'none';
   }
 </script>
-
 <!-- LMS Modal System -->
 <style>
   .lms-modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.6);display:none;align-items:center;justify-content:center;z-index:9999}
