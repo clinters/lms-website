@@ -38,6 +38,71 @@
 <h1>LMS Bot</h1>
 <p class="sub">A private Premier League Last Man Standing game for friends. We send reminders via WhatsApp only to people who have opted in, with easy opt-out.</p>
 </header>
+<section id="join" style="max-width:720px;margin:20px auto 40px;padding:24px;border:1px solid rgba(255,255,255,.12);border-radius:14px;background:linear-gradient(180deg,rgba(255,255,255,.03),rgba(255,255,255,.01));box-shadow:0 12px 40px rgba(0,0,0,.35);">
+<h2 style="margin:0 0 8px">Join the Game</h2>
+<div id="lmsBanner" style="display:none;margin:10px 0 14px;padding:10px 12px;border-radius:10px;border:1px solid rgba(0,224,145,.35);background:rgba(0,224,145,.12);color:#b9ffe5"></div>
+<form action="https://script.google.com/macros/s/AKfycbz5vb3AIYTjD7BRk7yHIx4zDrtqUasjtcMLf0NDQunX2Mmt_FIJZGNWcqr9I8h0Yg8/exec" id="lmsForm" method="post" onsubmit="return lmsValidate()" target="lmsFrame">
+<div style="display:grid;gap:12px">
+<label>Full name<br/>
+<input name="name" required="" style="width:100%;padding:10px;border-radius:10px;border:1px solid rgba(255,255,255,.2);background:rgba(255,255,255,.08);color:#fff" type="text"/>
+</label>
+<label>WhatsApp number (E.164, e.g. +447822034350)<br/>
+<input name="phone" pattern="^\+[1-9]\d{6,14}$" required="" style="width:100%;padding:10px;border-radius:10px;border:1px solid rgba(255,255,255,.2);background:rgba(255,255,255,.08);color:#fff" type="tel"/>
+</label>
+<label>Email (optional)<br/>
+<input name="email" style="width:100%;padding:10px;border-radius:10px;border:1px solid rgba(255,255,255,.2);background:rgba(255,255,255,.08);color:#fff" type="email"/>
+</label>
+<label style="display:flex;gap:10px;align-items:flex-start">
+<input name="agree" required="" type="checkbox"/>
+<span>I agree to the <a href="#terms">rules</a> and <a href="#privacy">privacy policy</a>.</span>
+</label>
+<button id="lmsBtn" style="padding:12px 16px;border-radius:12px;border:1px solid rgba(255,255,255,.25);background:#5e17eb;color:#fff;font-weight:600;cursor:pointer" type="submit">
+        Register
+      </button>
+<div id="hint" style="color:#a8a9c4;font-size:.95rem"></div>
+</div>
+</form>
+<!-- hidden target so we don't navigate away -->
+<iframe name="lmsFrame" style="display:none"></iframe>
+<script>
+    const form  = document.getElementById('lmsForm');
+    const btn   = document.getElementById('lmsBtn');
+    const hint  = document.getElementById('hint');
+    const banner= document.getElementById('lmsBanner');
+
+    function lmsValidate(){
+      const name  = form.name.value.trim();
+      const phone = form.phone.value.trim();
+      if (!name){ hint.textContent = 'Please enter your name.'; return false; }
+      if (!/^\+[1-9]\d{6,14}$/.test(phone)){ hint.textContent = 'Use full international format, e.g. +447822034350.'; return false; }
+      hint.textContent = '';
+      banner.style.display = 'none';
+      btn.disabled = true; btn.textContent = 'Submitting…';
+      return true; // submit to hidden iframe
+    }
+
+    // Listen for Apps Script postMessage
+    window.addEventListener('message', (ev)=>{
+      if (!ev.data || ev.data.lmsForm === undefined) return;
+      btn.disabled = false; btn.textContent = 'Register';
+      if (ev.data.lmsForm === 'ok'){
+        banner.style.display = 'block';
+        banner.style.borderColor = 'rgba(0,224,145,.35)';
+        banner.style.background  = 'rgba(0,224,145,.12)';
+        banner.style.color       = '#b9ffe5';
+        banner.textContent = '✅ You’re registered! Check WhatsApp for a welcome message.';
+        form.reset();
+      } else {
+        banner.style.display = 'block';
+        banner.style.borderColor = 'rgba(255,99,71,.35)';
+        banner.style.background  = 'rgba(255,99,71,.12)';
+        banner.style.color       = '#ffd9d4';
+        banner.textContent = '⚠️ ' + (ev.data.message || 'There was a problem. Please try again.');
+      }
+    });
+  </script>
+</section>
+
 <main>
 <section>
 <span class="pill">What we do</span>
@@ -91,42 +156,6 @@
 <li>Private, invite-only game. No gambling services are offered.</li>
 <li>Rules, including defaults and eliminations, are communicated to players in WhatsApp and remain final at admin discretion.</li>
 </ul>
-</section>
-
-<section id="join" style="max-width:720px;margin:40px auto;padding:24px;border:1px solid rgba(255,255,255,.08);border-radius:14px;background:linear-gradient(180deg,rgba(255,255,255,.03),rgba(255,255,255,.01));box-shadow:0 12px 40px rgba(0,0,0,.35);">
-<h2 style="margin-top:0">Join the Game</h2>
-<p>Enter your details to register for LMS. We’ll only message you about the game. You can opt out anytime by replying <code>STOP</code>.</p>
-<form action="https://script.google.com/macros/s/AKfycbz5vb3AIYTjD7BRk7yHIx4zDrtqUasjtcMLf0NDQunX2Mmt_FIJZGNWcqr9I8h0Yg8/exec" method="post" onsubmit="return lmsValidate()">
-<div style="display:grid;gap:12px">
-<label>Full name<br/>
-<input name="name" required="" style="width:100%;padding:10px;border-radius:10px;border:1px solid rgba(255,255,255,.15);background:rgba(255,255,255,.06);color:#fff" type="text"/>
-</label>
-<label>WhatsApp number (E.164, e.g. +447822034350)<br/>
-<input name="phone" pattern="^\+[1-9]\d{6,14}$" required="" style="width:100%;padding:10px;border-radius:10px;border:1px solid rgba(255,255,255,.15);background:rgba(255,255,255,.06);color:#fff" type="tel"/>
-</label>
-<label>Email (optional)<br/>
-<input name="email" style="width:100%;padding:10px;border-radius:10px;border:1px solid rgba(255,255,255,.15);background:rgba(255,255,255,.06);color:#fff" type="email"/>
-</label>
-<label style="display:flex;gap:10px;align-items:flex-start">
-<input name="agree" required="" type="checkbox"/>
-<span>I agree to the <a href="#terms">rules</a> and <a href="#privacy">privacy policy</a>.</span>
-</label>
-<button style="padding:12px 16px;border-radius:12px;border:1px solid rgba(255,255,255,.2);background:#5e17eb;color:#fff;font-weight:600;cursor:pointer" type="submit">Register</button>
-<div id="hint" style="color:#a8a9c4;font-size:.95rem"></div>
-</div>
-</form>
-<script>
-    function lmsValidate(){
-      const form = document.getElementById('join').querySelector('form');
-      const name = form.name.value.trim();
-      const phone = form.phone.value.trim();
-      const hint = document.getElementById('hint');
-      if (!name) { hint.textContent = 'Please enter your name.'; return false; }
-      if (!/^\+[1-9]\d{6,14}$/.test(phone)) { hint.textContent = 'Use full international format, e.g. +447822034350.'; return false; }
-      hint.textContent = '';
-      return true; // submit normally; Apps Script returns a "thank you" page
-    }
-  </script>
 </section>
 </main>
 <footer>
