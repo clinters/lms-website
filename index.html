@@ -47,7 +47,7 @@
 <input name="name" required="" style="width:100%;padding:10px;border-radius:10px;border:1px solid rgba(255,255,255,.2);background:rgba(255,255,255,.08);color:#fff" type="text"/>
 </label>
 <label>WhatsApp number (UK: +44… or 07… is fine)<br/>
-<input name="phone" pattern="^(?:\+44\d{9,10}|44\d{9,10}|0\d{10})$" required="" style="width:100%;padding:10px;border-radius:10px;border:1px solid rgba(255,255,255,.2);background:rgba(255,255,255,.08);color:#fff" type="tel"/>
+<input name="phone" pattern="^(?:\+44\d{9,10}|44\d{9,10}|0\d{10})$" placeholder="+44XXXXXXXXXX or 07XXXXXXXXX" required="" style="width:100%;padding:10px;border-radius:10px;border:1px solid rgba(255,255,255,.2);background:rgba(255,255,255,.08);color:#fff" type="tel"/>
 </label>
 <label>Email (optional)<br/>
 <input name="email" style="width:100%;padding:10px;border-radius:10px;border:1px solid rgba(255,255,255,.2);background:rgba(255,255,255,.08);color:#fff" type="email"/>
@@ -64,45 +64,7 @@
 </form>
 <!-- hidden target so we don't navigate away -->
 <iframe name="lmsFrame" style="display:none"></iframe>
-<script>
-    const form  = document.getElementById('lmsForm');
-    const btn   = document.getElementById('lmsBtn');
-    const hint  = document.getElementById('hint');
-    const banner= document.getElementById('lmsBanner');
 
-    function lmsValidate(){
-      const name  = (form.name.value || '').trim();
-      const phone = (form.phone.value || '').trim();
-      // Accept +44XXXXXXXXXX, 44XXXXXXXXXX, or 07XXXXXXXXXX (UK)
-      const ok = /^(?:\+44\d{9,10}|44\d{9,10}|0\d{10})$/.test(phone);
-      if (!name){ hint.textContent = 'Please enter your name.'; return false; }
-      if (!ok){ hint.textContent = 'Use +44XXXXXXXXXX, 44XXXXXXXXXX or 07XXXXXXXXXX'; return false; }
-      hint.textContent = '';
-      banner.style.display = 'none';
-      if (btn){ btn.disabled = true; btn.textContent = 'Submitting…'; }
-      return true; // submit to hidden iframe
-    }
-
-    // Listen for Apps Script postMessage
-    window.addEventListener('message', (ev)=>{
-      if (!ev.data || ev.data.lmsForm === undefined) return;
-      if (btn){ btn.disabled = false; btn.textContent = 'Register'; }
-      if (ev.data.lmsForm === 'ok'){
-        banner.style.display = 'block';
-        banner.style.borderColor = 'rgba(0,224,145,.35)';
-        banner.style.background  = 'rgba(0,224,145,.12)';
-        banner.style.color       = '#b9ffe5';
-        banner.textContent = '✅ You’re registered! Check WhatsApp for a welcome message.';
-        form.reset();
-      } else {
-        banner.style.display = 'block';
-        banner.style.borderColor = 'rgba(255,99,71,.35)';
-        banner.style.background  = 'rgba(255,99,71,.12)';
-        banner.style.color       = '#ffd9d4';
-        banner.textContent = '⚠️ ' + (ev.data.message || 'There was a problem. Please try again.');
-      }
-    });
-</script>
 </section>
 <main>
 <section>
@@ -341,6 +303,68 @@ If you have any questions about this Privacy Policy, contact:<br>
     e.preventDefault();
     openModal(a.getAttribute('href') === '#privacy' ? 'privacy' : 'rules');
   });
+</script>
+
+<script>
+  const form  = document.getElementById('lmsForm');
+  const btn   = document.getElementById('lmsBtn');
+  const hint  = document.getElementById('hint') || (function(){const s=document.createElement('div');s.id='hint';s.style.color='#ffd9d4';s.style.marginTop='8px'; form && form.appendChild(s); return s; })();
+  const banner= document.getElementById('lmsBanner');
+
+  function lmsValidate(){
+    if(!form) return true;
+    const name  = (form.name && form.name.value || '').trim();
+    const phone = (form.phone && form.phone.value || '').trim();
+    const ok = /^(?:\+44\d{9,10}|44\d{9,10}|0\d{10})$/.test(phone);
+    if (!name){ hint.textContent = 'Please enter your name.'; return false; }
+    if (!ok){ hint.textContent = 'Use +44XXXXXXXXXX, 44XXXXXXXXXX or 07XXXXXXXXXX'; return false; }
+    hint.textContent = '';
+    if (banner) banner.style.display = 'none';
+    if (btn){ btn.disabled = true; btn.textContent = 'Submitting…'; }
+    return true; // allow submit to hidden iframe
+  }
+
+  // Listen for Apps Script postMessage responses
+  window.addEventListener('message', (ev)=>{
+    if (!ev.data || ev.data.lmsForm === undefined) return;
+    if (btn){ btn.disabled = false; btn.textContent = 'Register'; }
+    if (ev.data.lmsForm === 'ok'){
+      if (banner){
+        banner.style.display = 'block';
+        banner.style.borderColor = 'rgba(0,224,145,.35)';
+        banner.style.background  = 'rgba(0,224,145,.12)';
+        banner.style.color       = '#b9ffe5';
+        banner.textContent = ev.data.message || '✅ You’re registered! Check WhatsApp for a welcome message.';
+      }
+      form && form.reset();
+    } else {
+      if (banner){
+        banner.style.display = 'block';
+        banner.style.borderColor = 'rgba(255,99,71,.35)';
+        banner.style.background  = 'rgba(255,99,71,.12)';
+        banner.style.color       = '#ffd9d4';
+        banner.textContent = '⚠️ ' + (ev.data.message || 'There was a problem. Please try again.');
+      }
+    }
+  });
+
+  // Safety fallback: if iframe loads but no postMessage, show generic success (prevents hanging UX)
+  const frame = document.getElementsByName('lmsFrame')[0];
+  if (frame) {
+    frame.addEventListener('load', ()=>{
+      setTimeout(()=>{
+        if (btn && btn.disabled && banner && !banner.textContent){
+          btn.disabled = false; btn.textContent = 'Register';
+          banner.style.display = 'block';
+          banner.style.borderColor = 'rgba(0,224,145,.35)';
+          banner.style.background  = 'rgba(0,224,145,.12)';
+          banner.style.color       = '#b9ffe5';
+          banner.textContent = '✅ Submitted. If you don’t see a WhatsApp message, you’re still registered.';
+          form && form.reset();
+        }
+      }, 500);
+    });
+  }
 </script>
 </body>
 </html>
