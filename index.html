@@ -54,7 +54,7 @@
 </label>
 <label style="display:flex;gap:10px;align-items:flex-start">
 <input name="agree" required="" type="checkbox"/>
-<span>I agree to the <a href="#terms">rules</a> and <a href="#privacy">privacy policy</a>.</span>
+<span>I agree to the <a href="#" onclick="openModal('rules');return false;">rules</a> and <a href="#" onclick="openModal('privacy');return false;">privacy policy</a>.</span>
 </label>
 <button id="lmsBtn" style="padding:12px 16px;border-radius:12px;border:1px solid rgba(255,255,255,.25);background:#5e17eb;color:#fff;font-weight:600;cursor:pointer" type="submit">
         Register
@@ -102,7 +102,6 @@
     });
   </script>
 </section>
-
 <main>
 <section>
 <span class="pill">What we do</span>
@@ -162,5 +161,89 @@
 <div>© <span id="y"></span> LMS Bot. All rights reserved.</div>
 <script>document.getElementById('y').textContent = new Date().getFullYear();</script>
 </footer>
+<!-- LMS Modal System -->
+<style>
+  .lms-modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.6);display:none;align-items:center;justify-content:center;z-index:9999}
+  .lms-modal{max-width:760px;width:92%;background:#12142b;color:#eaeaf3;border:1px solid rgba(255,255,255,.12);border-radius:14px;box-shadow:0 12px 40px rgba(0,0,0,.5)}
+  .lms-modal header{display:flex;justify-content:space-between;align-items:center;padding:16px 18px;border-bottom:1px solid rgba(255,255,255,.08)}
+  .lms-modal header h3{margin:0;font-size:20px}
+  .lms-modal .body{padding:18px;max-height:65vh;overflow:auto}
+  .lms-close{appearance:none;border:0;background:transparent;color:#a8a9c4;font-size:22px;cursor:pointer;line-height:1}
+  .lms-close:hover{color:#fff}
+</style>
+<div class="lms-modal-overlay" id="lmsOverlay" onclick="if(event.target.id==='lmsOverlay') closeModal()">
+<div aria-labelledby="lmsModalTitle" aria-modal="true" class="lms-modal" role="dialog">
+<header>
+<h3 id="lmsModalTitle">Modal</h3>
+<button aria-label="Close" class="lms-close" onclick="closeModal()">✕</button>
+</header>
+<div class="body" id="lmsModalBody"></div>
+</div>
+</div>
+<script>
+  const LMS_MODAL = {
+    rules: { title: 'Rules', html: "
+<p><em>Last updated: 11 August 2025</em></p>
+<ul>
+  <li>For each full set of fixtures you choose ONE Prem League team to WIN. A defeat or a draw and you lose a life.</li>
+  <li>Your £10 entry gets 2 lives so fear not, a naff selection in Week 1 and you're still in the game!</li>
+  <li>There will be a deadline set each week for selections to reach me via WhatsApp (normally Friday 6pm). I will send out a reminder but if you forget to send me your selection then the highest placed team that you haven't yet used will be your default selection.</li>
+  <li>Before and after each set of games I message all players with a spreadsheet confirming who has chosen who.</li>
+  <li>You cannot use the same team twice unless (in the unlikely event) a game lasts at least 20 weeks. The average lifespan of a game is around 10 weeks.</li>
+  <li>If a game is postponed for any reason after the weekly deadline I will use the result of the Pools Panel (yes it still exists!). If the postponement happens before the deadline I will ask for another selection.</li>
+  <li>During the latter stages of a game, a player can offer a split of the pot to the remaining players. For a split to happen all players must be in agreement. If not, then the game continues.</li>
+  <li>If the pot is not won then this will rollover into the next game.</li>
+  <li>If you're the last person left then the pot is yours!</li>
+</ul>
+" },
+    privacy: { title: 'Privacy Policy', html: '
+<p><em>Last updated: 11 August 2025</em></p>
+<p><strong>1. Who we are</strong><br>
+This site is operated by LMS Bot. We run a private, invite-only Last Man Standing game for friends based on the English Premier League.</p>
+
+<p><strong>2. Information we collect</strong><br>
+When you join the game, we collect:</p>
+<ul>
+  <li>Your name</li>
+  <li>Your WhatsApp phone number</li>
+  <li>(Optional) Your email address</li>
+  <li>Your weekly team picks and lives remaining</li>
+</ul>
+
+<p><strong>3. How we use your information</strong><br>
+We use your information solely to:</p>
+<ul>
+  <li>Administer the game (record picks, track lives, calculate results)</li>
+  <li>Send reminders and results via WhatsApp</li>
+  <li>Resolve disputes about game results</li>
+</ul>
+
+<p><strong>4. Sharing your information</strong><br>
+We do <strong>not</strong> sell, rent, or share your information with third parties.<br>
+We only store and process your data to run the game.</p>
+
+<p><strong>5. How long we keep your information</strong><br>
+We keep your data for up to <strong>12 months</strong> after the end of a game to allow for dispute resolution, then delete it.</p>
+
+<p><strong>6. Your rights</strong><br>
+You can request a copy of your data, ask for it to be corrected, or request deletion at any time by emailing <strong>clinters@me.com</strong>.<br>
+You can also stop receiving WhatsApp messages at any time by replying <strong>STOP</strong>.</p>
+
+<p><strong>7. Contact</strong><br>
+If you have any questions about this Privacy Policy, contact:<br>
+📧 Email: <strong>clinters@me.com</strong><br>
+📍 Wirral, CH43 7QE, United Kingdom</p>
+' }
+  };
+  function openModal(key){
+    const o = LMS_MODAL[key]; if(!o) return;
+    document.getElementById('lmsModalTitle').textContent = o.title;
+    document.getElementById('lmsModalBody').innerHTML = o.html;
+    document.getElementById('lmsOverlay').style.display = 'flex';
+  }
+  function closeModal(){
+    document.getElementById('lmsOverlay').style.display = 'none';
+  }
+</script>
 </body>
 </html>
