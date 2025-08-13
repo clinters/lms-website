@@ -3,11 +3,8 @@
 <head>
   <meta charset="utf-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
-  <title>LMS Bot – Last Man Standing</title>
-  <meta name="description" content="Private, invitation-only Premier League friendly challenge. Simple weekly picks via WhatsApp with clear opt-in and privacy controls."/>
-  <meta property="og:title" content="LMS Bot – Last Man Standing"/>
-  <meta property="og:description" content="Private, invitation-only Premier League friendly challenge. Weekly picks via WhatsApp."/>
-  <meta property="og:type" content="website"/>
+  <title>LMS Sports Club</title>
+  <meta name="description" content="Private, invitation-only weekly Premier League selections via WhatsApp. Simple, opt-in updates with clear privacy."/>
   <meta name="theme-color" content="#5e17eb"/>
 
   <style>
@@ -38,7 +35,6 @@
     .pill{display:inline-block; padding:.35rem .6rem; background:rgba(0,224,145,.16); color:#b9ffe5; border:1px solid rgba(0,224,145,.25); border-radius:999px; font-size:.9rem}
     footer{max-width:980px; margin:0 auto 56px; padding:0 24px; color:var(--muted); text-align:center}
 
-    /* Modals */
     .modal{position:fixed; inset:0; background:rgba(0,0,0,.55); display:none; align-items:center; justify-content:center; padding:24px; z-index:50}
     .modal.open{display:flex}
     .card{max-width:880px; width:min(880px, 100%); background:#0f1128; border:1px solid var(--border); border-radius:16px; padding:22px 20px 18px; box-shadow:var(--shadow)}
@@ -53,18 +49,18 @@
     <div class="logo">
       <div class="logo-badge"><span>LMS</span></div>
       <div style="text-align:left">
-        <div style="opacity:.9;font-weight:700">LMS – Private Premier League Challenge</div>
-        <div class="muted" style="font-size:.95rem">Weekly picks via WhatsApp. Private, opt-in, no marketing.</div>
+        <div style="opacity:.9;font-weight:700">LMS Sports Club</div>
+        <div class="muted" style="font-size:.95rem">Private weekly fixtures and selections via WhatsApp (opt-in only).</div>
       </div>
     </div>
-    <h1>Last Man Standing (but friendly)</h1>
-    <p class="sub">Invitation-only weekly picks handled on WhatsApp. Fully opt-in. We send fixtures, confirm your pick, and keep score. That’s it.</p>
+    <h1>Weekly Premier League Selections</h1>
+    <p class="sub">Invitation-only updates handled on WhatsApp. We send fixtures, you choose a team each week. Simple, private, and low-noise.</p>
   </header>
 
   <main>
     <section class="cols">
       <div>
-        <h2>Join the game</h2>
+        <h2>Join</h2>
         <form id="reg" method="post" action="https://script.google.com/macros/s/AKfycbz5vb3AIYTjD7BRk7yHIx4zDrtqUasjtcMLf0NDQunX2Mmt_FIJZGNWcqr9I8h0Yg8/exec">
           <label for="name">Name</label>
           <input id="name" name="name" required placeholder="Alex Smith"/>
@@ -81,61 +77,54 @@
           </div>
 
           <button type="submit">Register</button>
-          <p class="muted" style="margin:.7rem 0 0">By registering you opt-in to receive transactional WhatsApp messages about your picks and fixtures. You can STOP any time.</p>
+          <p class="muted" style="margin:.7rem 0 0">By registering you opt-in to receive WhatsApp messages about fixtures and your weekly selection. You can reply STOP at any time.</p>
         </form>
       </div>
 
       <div>
         <h2>How it works</h2>
-        <p>Each week, choose one Premier League team you believe will win. If they draw or lose, you lose a life. Last player with lives left wins the challenge.</p>
-        <p><span class="pill">Private, invitation-only</span> &nbsp; <span class="pill">Opt-in via form</span> &nbsp; <span class="pill">No marketing</span></p>
-        <p class="muted">Contribution (e.g., £10) goes towards a prize fund for the winner — handled offline between participants.</p>
+        <p>Each week you’ll receive the fixture list and can select a preferred team. You can revise your choice until the weekly cutoff.</p>
+        <p><span class="pill">Private & invitation-only</span> &nbsp; <span class="pill">Opt-in via form</span> &nbsp; <span class="pill">No marketing</span></p>
         <p><a href="#" data-open="rules">Read the Rules</a> · <a href="#" data-open="privacy">Privacy</a></p>
       </div>
     </section>
   </main>
 
-  <!-- Rules Modal (WhatsApp-safe wording) -->
+  <!-- Rules Modal -->
   <div id="modal-rules" class="modal" role="dialog" aria-modal="true" aria-labelledby="rules-title">
     <div class="card">
       <button class="close" data-close>Close</button>
-      <h3 id="rules-title">LMS Friendly Football Challenge – Rules</h3>
+      <h3 id="rules-title">LMS Sports Club – Rules</h3>
       <div class="body">
         <ul>
-          <li>Each week, choose <strong>one Premier League team</strong> you think will win.</li>
-          <li>A draw or defeat costs you <strong>one life</strong>.</li>
-          <li><strong>Your entry includes two lives</strong>, so a bad Week 1 pick doesn’t end your game.</li>
-          <li>Send your pick via WhatsApp before the weekly deadline (usually Friday 6pm).</li>
-          <li>If no pick is received, your default will be the <strong>highest-ranked team you haven’t used</strong> yet.</li>
-          <li>You cannot choose the <strong>same team twice</strong> in the same game.</li>
-          <li>If a match is postponed after the deadline, an independent football panel’s result will be used. If the postponement is before the deadline, you’ll be asked for a new pick.</li>
-          <li>Towards the end of a game, remaining players may agree to share the prize fund. A share only happens if <strong>everyone agrees</strong>.</li>
-          <li>If you are the last player with lives remaining, you’re declared the <strong>winner</strong>.</li>
+          <li>Each week we share the Premier League fixtures. Choose one team before the cutoff time.</li>
+          <li>If no choice is received, the system may select a default based on standings and previous choices.</li>
+          <li>You won’t be asked to choose the same team again in the same cycle.</li>
+          <li>If a match is postponed after the cutoff, the panel result is used; if before, we’ll ask for a new choice.</li>
+          <li>This is a private, invitation-only activity for a small group of participants.</li>
         </ul>
-        <p class="muted">Note: This is a <strong>private, invitation-only</strong> challenge for friends. The contribution (e.g., £10) is a simple way to fund the winner’s prize and is managed off-platform between participants.</p>
       </div>
     </div>
   </div>
 
-  <!-- Privacy Modal (opt-in & transactional emphasis) -->
+  <!-- Privacy Modal -->
   <div id="modal-privacy" class="modal" role="dialog" aria-modal="true" aria-labelledby="privacy-title">
     <div class="card">
       <button class="close" data-close>Close</button>
       <h3 id="privacy-title">Privacy Policy</h3>
       <div class="body">
-        <p><strong>What we collect</strong>: name, WhatsApp number, and (optionally) email — solely to run the private LMS game (record picks, send fixtures, confirm results).</p>
-        <p><strong>How we use it</strong>: we send <em>transactional</em> WhatsApp messages you ask for (e.g., fixtures, pick confirmations, reminders). No marketing or third-party sharing.</p>
-        <p><strong>Legal basis</strong>: your explicit consent (opt-in) and our legitimate interest in operating the private game.</p>
-        <p><strong>Data location & retention</strong>: stored in Google Sheets. We keep entries for the game season and up to 12 months for dispute resolution, then delete.</p>
-        <p><strong>Your choices</strong>: you can request your data, corrections, or deletion at any time by contacting the admin. Send “STOP” on WhatsApp to opt-out of further messages.</p>
-        <p><strong>Scope</strong>: this is a private, invitation-only group activity. No public advertising or unsolicited messaging.</p>
-        <p><strong>Contact</strong>: LMS Bot Admin · clinters@me.com · Wirral, CH43 7QE · +447822034350</p>
+        <p><strong>Data we collect</strong>: name, WhatsApp number, and (optional) email to run weekly selections (record choices, send fixtures and confirmations).</p>
+        <p><strong>How it’s used</strong>: we send opt-in, transactional messages only (no marketing, no third-party sharing).</p>
+        <p><strong>Retention</strong>: stored in Google Sheets for the current cycle and up to 12 months for audit, then removed.</p>
+        <p><strong>Your choices</strong>: request access/correction/deletion anytime via the admin; reply STOP to opt out of messages.</p>
+        <p><strong>Scope</strong>: private club – no public advertising, no unsolicited messages.</p>
+        <p><strong>Contact</strong>: LMS Admin · clinters@me.com · Wirral, CH43 7QE · +447822034350</p>
       </div>
     </div>
   </div>
 
   <footer>
-    <p class="muted">© LMS Bot. Private, invitation-only friendly football challenge.</p>
+    <p class="muted">© LMS Sports Club. Private weekly selections via WhatsApp.</p>
   </footer>
 
   <script>
@@ -145,21 +134,21 @@
     document.querySelectorAll('[data-close]').forEach(b=>b.addEventListener('click',()=>b.closest('.modal').classList.remove('open')));
     document.querySelectorAll('.modal').forEach(m=>m.addEventListener('click',e=>{ if(e.target===m) m.classList.remove('open'); }));
 
-    // Light client-side normalisation for phone: allow +44 etc, trim spaces
+    // Light phone normalisation (+44 etc)
     const phone = document.getElementById('phone');
     phone.addEventListener('blur', () => {
       let p = phone.value.trim();
       if (p.startsWith('00')) p = '+' + p.slice(2);
-      if (!p.startsWith('+')) p = '+' + p.replace(/[^\\d]/g,'');
+      if (!p.startsWith('+')) p = '+' + p.replace(/[^\d]/g,'');
       p = p.replace(/\\s+/g,'');
       phone.value = p;
     });
 
-    // Optional: show toast on successful Apps Script postMessage
-    window.addEventListener('message', (ev) => {
+    // Optional toast on success via postMessage from Apps Script
+    window.addEventListener('message', ev => {
       if (!ev.data) return;
-      if (ev.data.lmsForm === 'ok') { alert('Thanks! Your registration was received.'); }
-      if (ev.data.lmsForm === 'error') { alert('Oops: ' + ev.data.message); }
+      if (ev.data.lmsForm === 'ok') alert('Thanks! Your registration was received.');
+      if (ev.data.lmsForm === 'error') alert('Oops: ' + ev.data.message);
     });
   </script>
 </body>
