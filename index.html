@@ -6,12 +6,12 @@
   <title>LMS Sports Club</title>
   <meta name="description" content="Private, invitation-only weekly Premier League selections via WhatsApp. Simple, opt-in updates with clear privacy."/>
   <meta name="theme-color" content="#5e17eb"/>
-
   <style>
     :root{
       --bg:#0f1020; --panel:#151735; --brand:#5e17eb; --accent:#00e091;
       --text:#eaeaf3; --muted:#a8a9c4; --link:#76b3ff; --border:rgba(255,255,255,.08);
       --radius:14px; --shadow:0 12px 40px rgba(0,0,0,.35);
+      --ok:#0ea36e; --err:#d64545;
     }
     *{box-sizing:border-box}
     html,body{margin:0;background:radial-gradient(1200px 600px at 80% -10%, #1b1d47 0%, #0f1020 50%, #0b0c1a 100%);color:var(--text);font:16px/1.6 system-ui,-apple-system,Segoe UI,Roboto,Inter,Arial,sans-serif}
@@ -29,6 +29,7 @@
     input,button{width:100%; padding:.85rem 1rem; border-radius:12px; border:1px solid var(--border); background:#0f122a; color:#eaeaf3}
     input:focus,button:focus{outline:2px solid #6b2bff; outline-offset:2px}
     button{background:linear-gradient(180deg,#6b2bff,#5e17eb); border:none; cursor:pointer; font-weight:600}
+    button[disabled]{opacity:.6; cursor:not-allowed}
     a{color:#76b3ff}
     .muted{color:var(--muted)}
     .row{display:flex; gap:.6rem; align-items:center}
@@ -42,6 +43,10 @@
     .card .body{max-height:70vh; overflow:auto}
     .close{float:right; background:#20224a; border:none; color:#eaeaf3; padding:.4rem .7rem; border-radius:10px; cursor:pointer}
     ul{padding-left:1.1rem}
+
+    .toast{position:fixed; left:50%; top:24px; transform:translateX(-50%); background:#0f1128; border:1px solid var(--border); border-left:6px solid var(--ok);
+      color:#eaeaf3; padding:12px 16px; border-radius:12px; box-shadow:var(--shadow); display:none; z-index:60; min-width:260px; text-align:center}
+    .toast.err{border-left-color:var(--err)}
   </style>
 </head>
 <body>
@@ -61,7 +66,8 @@
     <section class="cols">
       <div>
         <h2>Join</h2>
-        <form id="reg" method="post" action="https://script.google.com/macros/s/AKfycbz5vb3AIYTjD7BRk7yHIx4zDrtqUasjtcMLf0NDQunX2Mmt_FIJZGNWcqr9I8h0Yg8/exec">
+        <!-- AJAX submission keeps the user on this page -->
+        <form id="reg" method="post" data-endpoint="https://script.google.com/macros/s/AKfycbz5vb3AIYTjD7BRk7yHIx4zDrtqUasjtcMLf0NDQunX2Mmt_FIJZGNWcqr9I8h0Yg8/exec">
           <label for="name">Name</label>
           <input id="name" name="name" required placeholder="Alex Smith"/>
 
@@ -76,7 +82,7 @@
             <label for="agree" class="muted">I agree to the <a href="#" data-open="rules">Rules</a> and <a href="#" data-open="privacy">Privacy Policy</a>.</label>
           </div>
 
-          <button type="submit">Register</button>
+          <button id="submitBtn" type="submit">Register</button>
           <p class="muted" style="margin:.7rem 0 0">By registering you opt-in to receive WhatsApp messages about fixtures and your weekly selection. You can reply STOP at any time.</p>
         </form>
       </div>
@@ -123,6 +129,8 @@
     </div>
   </div>
 
+  <div id="toast" class="toast"></div>
+
   <footer>
     <p class="muted">© LMS Sports Club. Private weekly selections via WhatsApp.</p>
   </footer>
@@ -134,21 +142,59 @@
     document.querySelectorAll('[data-close]').forEach(b=>b.addEventListener('click',()=>b.closest('.modal').classList.remove('open')));
     document.querySelectorAll('.modal').forEach(m=>m.addEventListener('click',e=>{ if(e.target===m) m.classList.remove('open'); }));
 
-    // Light phone normalisation (+44 etc)
+    // Phone normalisation (+44 etc)
     const phone = document.getElementById('phone');
     phone.addEventListener('blur', () => {
       let p = phone.value.trim();
       if (p.startsWith('00')) p = '+' + p.slice(2);
-      if (!p.startsWith('+')) p = '+' + p.replace(/[^\d]/g,'');
+      if (!p.startsWith('+')) p = '+' + p.replace(/[^\\d]/g,'');
       p = p.replace(/\\s+/g,'');
       phone.value = p;
     });
 
-    // Optional toast on success via postMessage from Apps Script
-    window.addEventListener('message', ev => {
-      if (!ev.data) return;
-      if (ev.data.lmsForm === 'ok') alert('Thanks! Your registration was received.');
-      if (ev.data.lmsForm === 'error') alert('Oops: ' + ev.data.message);
+    // Toast helper
+    const toast = (msg, isErr=false) => {
+      const el = document.getElementById('toast');
+      el.className = 'toast' + (isErr ? ' err' : '');
+      el.textContent = msg;
+      el.style.display = 'block';
+      setTimeout(()=> el.style.display='none', 4500);
+    };
+
+    // AJAX submit
+    const form = document.getElementById('reg');
+    const btn  = document.getElementById('submitBtn');
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      if (!form.reportValidity()) return;
+
+      // normalise phone before send
+      phone.dispatchEvent(new Event('blur'));
+
+      const endpoint = form.getAttribute('data-endpoint');
+      const data = new URLSearchParams(new FormData(form));
+      try {
+        btn.disabled = true; btn.textContent = 'Submitting…';
+        const res = await fetch(endpoint, {
+          method: 'POST',
+          headers: { 'Content-Type':'application/x-www-form-urlencoded;charset=UTF-8' },
+          body: data.toString(),
+          mode: 'cors'
+        });
+        const text = await res.text();
+        if (res.ok) {
+          toast('Thanks! Your registration was received.');
+          form.reset();
+        } else {
+          toast('Registration failed. Please try again.', true);
+          console.log('Form error', res.status, text);
+        }
+      } catch (err) {
+        toast('Network error – please try again.', true);
+        console.error('Fetch error', err);
+      } finally {
+        btn.disabled = false; btn.textContent = 'Register';
+      }
     });
   </script>
 </body>
