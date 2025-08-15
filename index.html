@@ -1,163 +1,190 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>LMS Registration</title>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>LMS Sports Club</title>
+  <meta name="description" content="Private, invitation-only weekly Premier League selections via WhatsApp. Simple, opt-in updates with clear privacy."/>
+  <meta name="theme-color" content="#5e17eb"/>
   <style>
     :root{
-      --bg:#0e1024; --panel:#14183a; --brand:#6a0dad; --text:#eef1ff; --muted:#a7a9c6;
-      --ok:#10b981; --err:#ef4444; --border:rgba(255,255,255,.08);
+      --bg:#0e1024; --panel:#121536; --brand:#5e17eb; --accent:#00e091;
+      --text:#ececf6; --muted:#a7a9c6; --link:#7ab3ff; --border:rgba(255,255,255,.1);
+      --ok:#10b981; --err:#ef4444; --shadow:0 12px 36px rgba(0,0,0,.35); --radius:16px;
     }
     *{box-sizing:border-box}
-    body{margin:0;background:radial-gradient(1100px 520px at 80% -10%, #1b1d47 0%, #0e1024 50%, #0a0b1b 100%);color:var(--text);font:16px/1.6 system-ui,Segoe UI,Inter,Roboto,Arial,sans-serif}
-    .wrap{max-width:720px;margin:48px auto;padding:0 20px}
-    h1{margin:0 0 16px;text-align:center}
-    .sub{color:var(--muted);text-align:center;margin:0 0 28px}
-    form{background:linear-gradient(180deg,rgba(255,255,255,.04),rgba(255,255,255,.02));border:1px solid var(--border);border-radius:14px;padding:20px}
-    label{display:block;margin:.6rem 0 .3rem}
-    input,button{width:100%;padding:12px;border-radius:10px;border:1px solid var(--border);background:#0f1230;color:#eef1ff}
-    input:focus,button:focus{outline:2px solid var(--brand);outline-offset:2px}
-    button{border:none;background:linear-gradient(180deg,#7a1ee0,#6a0dad);font-weight:700;cursor:pointer;margin-top:10px}
+    html,body{margin:0;background:radial-gradient(1200px 600px at 80% -10%, #1b1d47 0%, #0e1024 50%, #0a0b1b 100%);color:var(--text);font:16px/1.6 system-ui,Segoe UI,Inter,Roboto,Arial,sans-serif}
+    header{padding:64px 20px 20px;text-align:center}
+    .brand{display:inline-grid;grid-auto-flow:column;gap:.7rem;align-items:center;justify-content:center}
+    .badge{width:46px;height:46px;border-radius:14px;background:linear-gradient(180deg,#6b2bff,#5e17eb);display:grid;place-items:center;box-shadow:0 8px 20px rgba(94,23,235,.35);font-weight:800;letter-spacing:.8px}
+    h1{margin:12px 0 6px;font-size:clamp(28px,5vw,44px)}
+    .sub{max-width:860px;margin:0 auto;color:var(--muted)}
+    main{max-width:980px;margin:28px auto 80px;padding:0 20px;display:grid;gap:18px}
+    section{background:linear-gradient(180deg,rgba(255,255,255,.03),rgba(255,255,255,.015));border:1px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow);padding:28px}
+    .cols{display:grid;gap:18px}
+    @media(min-width:860px){.cols{grid-template-columns:1.1fr .9fr}}
+    h2{margin:.2rem 0 1rem;font-size:22px}
+
+    label{display:block;margin:.65rem 0 .35rem}
+    input[type="text"],input[type="tel"],input[type="email"]{
+      width:100%;padding:.9rem 1rem;border-radius:12px;border:1px solid var(--border);background:#0f1230;color:var(--text)
+    }
+    input:focus{outline:2px solid #6b2bff;outline-offset:2px}
+    button{width:100%;padding:.95rem 1rem;border-radius:12px;border:none;background:linear-gradient(180deg,#6b2bff,#5e17eb);color:#fff;font-weight:700;cursor:pointer}
     button[disabled]{opacity:.6;cursor:not-allowed}
-    .row{display:flex;gap:.5rem;align-items:center;margin-top:10px}
-    .row input[type="checkbox"]{width:auto}
-    .msg{display:none;margin-top:12px;padding:12px;border-radius:10px;text-align:center}
+    a{color:var(--link);text-decoration:none}
+    .muted{color:var(--muted)}
+    .row{display:flex;gap:.6rem;align-items:center}
+    .pill{display:inline-block;padding:.35rem .6rem;background:rgba(0,224,145,.16);color:#b9ffe5;border:1px solid rgba(0,224,145,.25);border-radius:999px;font-size:.9rem}
+    footer{max-width:980px;margin:0 auto 56px;padding:0 20px;color:var(--muted);text-align:center}
+
+    .msg{display:none;margin-top:14px;padding:12px 14px;border-radius:12px}
     .msg.ok{display:block;background:rgba(16,185,129,.12);border:1px solid rgba(16,185,129,.4);color:#d1fae5}
     .msg.err{display:block;background:rgba(239,68,68,.12);border:1px solid rgba(239,68,68,.4);color:#fee2e2}
-    .links{margin-top:10px;text-align:center}
-    .links a{color:#7ab3ff;text-decoration:none;margin:0 6px;cursor:pointer}
-    /* modal */
-    .modal{position:fixed;inset:0;background:rgba(0,0,0,.6);display:none;align-items:center;justify-content:center;padding:20px;z-index:50}
+
+    .modal{position:fixed;inset:0;background:rgba(0,0,0,.55);display:none;align-items:center;justify-content:center;padding:20px;z-index:50}
     .modal.open{display:flex}
-    .card{max-width:720px;width:min(720px,100%);background:#0f112c;border:1px solid var(--border);border-radius:14px;padding:18px}
-    .card h3{margin:.2rem 0 10px}
-    .close{float:right;background:#1e224f;border:none;color:#fff;padding:.35rem .6rem;border-radius:8px;cursor:pointer}
+    .card{max-width:880px;width:min(880px,100%);background:#0f112c;border:1px solid var(--border);border-radius:16px;padding:22px 20px 18px;box-shadow:var(--shadow)}
+    .card h3{margin:.2rem 0 .6rem}
+    .card .body{max-height:70vh;overflow:auto}
+    .close{float:right;background:#21244a;border:none;color:#eaeaf3;padding:.45rem .75rem;border-radius:10px;cursor:pointer}
+    ul{padding-left:1.1rem}
   </style>
 </head>
 <body>
-  <div class="wrap">
-    <h1>LMS Sports Club – Join</h1>
-    <p class="sub">Private, invitation‑only weekly Premier League selections via WhatsApp.</p>
+  <header>
+    <div class="brand">
+      <div class="badge">LMS</div>
+      <div style="text-align:left">
+        <div style="opacity:.9;font-weight:800">LMS Sports Club</div>
+        <div class="muted" style="font-size:.95rem">Private weekly fixtures and selections via WhatsApp (opt‑in only).</div>
+      </div>
+    </div>
+    <h1>Weekly Premier League Selections</h1>
+    <p class="sub">Invitation‑only updates handled on WhatsApp. We send fixtures; you choose a team each week. Simple, private, low‑noise.</p>
+  </header>
 
-    <form id="reg" novalidate>
-      <label for="name">Name</label>
-      <input id="name" name="name" type="text" required placeholder="Alex Smith" />
+  <main>
+    <section class="cols">
+      <div>
+        <h2>Join</h2>
+        <form id="reg" novalidate>
+          <label for="name">Name</label>
+          <input id="name" name="name" type="text" required placeholder="Alex Smith" />
 
-      <label for="phone">WhatsApp number (incl. country code)</label>
-      <input id="phone" name="phone" type="tel" inputmode="tel" required placeholder="+447712345678" />
+          <label for="phone">WhatsApp number (incl. country code)</label>
+          <input id="phone" name="phone" type="tel" inputmode="tel" required placeholder="+447712345678" />
 
-      <label for="email">Email (optional)</label>
-      <input id="email" name="email" type="email" placeholder="you@example.com" />
+          <label for="email">Email (optional)</label>
+          <input id="email" name="email" type="email" placeholder="you@example.com" />
 
-      <div class="row">
-        <input type="checkbox" id="agree" name="agree" required>
-        <label for="agree">I agree to the <a id="openRules">Rules</a> and <a id="openPrivacy">Privacy Policy</a>.</label>
+          <div class="row" style="margin:.9rem 0 1rem">
+            <input type="checkbox" id="agree" name="agree" required style="width:auto" />
+            <label for="agree" class="muted">I agree to the <a href="#" data-open="rules">Rules</a> and <a href="#" data-open="privacy">Privacy Policy</a>.</label>
+          </div>
+
+          <button id="submitBtn" type="submit">Register</button>
+          <div id="msg" class="msg" aria-live="polite"></div>
+        </form>
       </div>
 
-      <button id="submitBtn" type="submit">Register</button>
-      <div id="msg" class="msg" aria-live="polite"></div>
-    </form>
-
-    <div class="links">
-      <a id="openRules2">Rules</a> • <a id="openPrivacy2">Privacy Policy</a>
-    </div>
-  </div>
+      <div>
+        <h2>How it works</h2>
+        <p>We’ll send fixtures for each gameweek. Pick one team before the cutoff. You can change your choice until then.</p>
+        <p><span class="pill">Private & invitation‑only</span> &nbsp; <span class="pill">Opt‑in via form</span> &nbsp; <span class="pill">No marketing</span></p>
+        <p><a href="#" data-open="rules">Read the Rules</a> · <a href="#" data-open="privacy">Privacy</a></p>
+      </div>
+    </section>
+  </main>
 
   <!-- Rules Modal -->
-  <div id="modalRules" class="modal">
+  <div id="modal-rules" class="modal" role="dialog" aria-modal="true" aria-labelledby="rules-title">
     <div class="card">
       <button class="close" data-close>Close</button>
-      <h3>Rules</h3>
-      <ul>
-        <li>For each full set of fixtures you choose ONE Prem League team to WIN. A defeat or a draw and you lose a life.</li>
-        <li>Your entry gets 2 lives so fear not, a naff selection in Week 1 and you're still in the game!</li>
-        <li>Deadline each week (normally Friday 6pm). Forget and your default will be the highest‑placed unused team.</li>
-        <li>You cannot use the same team twice unless a game lasts 20+ weeks.</li>
-        <li>If a game is postponed after the deadline, Pools Panel result applies. Before deadline ⇒ pick again.</li>
-        <li>Pot split allowed late game if all agree; otherwise play continues. Rollover if no winner.</li>
-        <li>Last person left wins the pot.</li>
-      </ul>
+      <h3 id="rules-title">LMS Sports Club – Rules</h3>
+      <div class="body">
+        <ul>
+          <li>Each week we share the Premier League fixtures. Choose one team before the cutoff time.</li>
+          <li>If no choice is received, the system may select a default based on standings and previous choices.</li>
+          <li>You won’t be asked to choose the same team again in the same cycle.</li>
+          <li>If a match is postponed after the cutoff, the panel result is used; if before, we’ll ask for a new choice.</li>
+          <li>This is a private, invitation‑only activity for a small group of participants.</li>
+        </ul>
+      </div>
     </div>
   </div>
 
   <!-- Privacy Modal -->
-  <div id="modalPrivacy" class="modal">
+  <div id="modal-privacy" class="modal" role="dialog" aria-modal="true" aria-labelledby="privacy-title">
     <div class="card">
       <button class="close" data-close>Close</button>
-      <h3>Privacy Policy</h3>
-      <p><strong>Data we collect:</strong> name, WhatsApp number, and (optional) email to run weekly selections (record choices, send fixtures and confirmations).</p>
-      <p><strong>How it’s used:</strong> opt‑in, transactional messages only (no marketing, no third‑party sharing).</p>
-      <p><strong>Retention:</strong> stored in Google Sheets for the current cycle and up to 12 months for audit, then removed.</p>
-      <p><strong>Your choices:</strong> request access/correction/deletion anytime via the admin; reply STOP to opt out of messages.</p>
-      <p><strong>Scope:</strong> private club – no public advertising, no unsolicited messages.</p>
-      <p><strong>Contact:</strong> LMS Admin · clinters@me.com · Wirral, CH43 7QE · +447874469812</p>
+      <h3 id="privacy-title">Privacy Policy</h3>
+      <div class="body">
+        <p><strong>Data we collect</strong>: name, WhatsApp number, and (optional) email to run weekly selections (record choices, send fixtures and confirmations).</p>
+        <p><strong>How it’s used</strong>: we send opt‑in, transactional messages only (no marketing, no third‑party sharing).</p>
+        <p><strong>Retention</strong>: stored in Google Sheets for the current cycle and up to 12 months for audit, then removed.</p>
+        <p><strong>Your choices</strong>: request access/correction/deletion anytime via the admin; reply STOP to opt out of messages.</p>
+        <p><strong>Scope</strong>: private club – no public advertising, no unsolicited messages.</p>
+        <p><strong>Contact</strong>: LMS Admin · clinters@me.com · Wirral, CH43 7QE · +447874469812</p>
+      </div>
     </div>
   </div>
 
-  <script>
-    // Open/close modals
-    const modalRules   = document.getElementById('modalRules');
-    const modalPrivacy = document.getElementById('modalPrivacy');
-    const openRules = () => modalRules.classList.add('open');
-    const openPrivacy = () => modalPrivacy.classList.add('open');
-    document.getElementById('openRules')  .addEventListener('click', e => { e.preventDefault(); openRules(); });
-    document.getElementById('openPrivacy').addEventListener('click', e => { e.preventDefault(); openPrivacy(); });
-    document.getElementById('openRules2') .addEventListener('click', e => { e.preventDefault(); openRules(); });
-    document.getElementById('openPrivacy2').addEventListener('click', e => { e.preventDefault(); openPrivacy(); });
-    document.querySelectorAll('[data-close]').forEach(b => b.addEventListener('click', () => b.closest('.modal').classList.remove('open')));
-    document.querySelectorAll('.modal').forEach(m => m.addEventListener('click', e => { if (e.target === m) m.classList.remove('open'); }));
+  <footer>
+    <p class="muted">© LMS Sports Club. Private weekly selections via WhatsApp.</p>
+  </footer>
 
-    // Normalise phone to E.164-like
+  <!-- Hidden iframe sink for classic POST (avoids CORS/redirect issues) -->
+  <iframe id="lmsSink" name="lmsSink" style="display:none;"></iframe>
+
+  <script>
+    // Modal open/close
+    document.querySelectorAll('[data-open="rules"]').forEach(a=>a.addEventListener('click',e=>{e.preventDefault();document.getElementById('modal-rules').classList.add('open');}));
+    document.querySelectorAll('[data-open="privacy"]').forEach(a=>a.addEventListener('click',e=>{e.preventDefault();document.getElementById('modal-privacy').classList.add('open');}));
+    document.querySelectorAll('[data-close]').forEach(b=>b.addEventListener('click',()=>b.closest('.modal').classList.remove('open')));
+    document.querySelectorAll('.modal').forEach(m=>m.addEventListener('click',e=>{ if(e.target===m) m.classList.remove('open'); }));
+
+    // Normalise phone (+44 etc)
     const phone = document.getElementById('phone');
     phone.addEventListener('blur', () => {
       let p = phone.value.trim();
       if (p.startsWith('00')) p = '+' + p.slice(2);
-      if (!p.startsWith('+')) p = '+' + p.replace(/[^\d]/g,'');
-      p = p.replace(/\s+/g,'');
+      if (!p.startsWith('+')) p = '+' + p.replace(/[^\\d]/g,'');
+      p = p.replace(/\\s+/g,'');
       phone.value = p;
     });
 
-    // Submit using URL-encoded body to Apps Script
+    // Classic POST into hidden iframe
     const form = document.getElementById('reg');
     const btn  = document.getElementById('submitBtn');
     const msg  = document.getElementById('msg');
+    const sink = document.getElementById('lmsSink');
     const ENDPOINT = "https://script.google.com/macros/s/AKfycbz5vb3AIYTjD7BRk7yHIx4zDrtqUasjtcMLf0NDQunX2Mmt_FIJZGNWcqr9I8h0Yg8/exec";
 
-    form.addEventListener('submit', async (e) => {
+    // Ignore first iframe load
+    let firstLoad = true;
+    sink.addEventListener('load', () => {
+      if (firstLoad) { firstLoad = false; return; }
+      btn.disabled = false; btn.textContent = 'Register';
+      msg.className = 'msg ok';
+      msg.innerHTML = '✅ Thanks! Your registration was received. You should get a WhatsApp confirmation shortly.';
+      msg.style.display = 'block';
+      form.reset();
+    });
+
+    form.addEventListener('submit', (e) => {
       e.preventDefault();
       if (!form.checkValidity()) { form.reportValidity(); return; }
 
-      phone.dispatchEvent(new Event('blur')); // normalise first
+      // normalise phone
+      phone.dispatchEvent(new Event('blur'));
 
-      const data = new URLSearchParams(new FormData(form)); // classic form submit
-      try {
-        btn.disabled = true; btn.textContent = 'Submitting…';
-        const res = await fetch(ENDPOINT, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8' },
-          body: data.toString(),
-          redirect: 'follow',
-          mode: 'cors'
-        });
-        const text = await res.text();
-        if (res.ok) {
-          msg.className = 'msg ok';
-          msg.innerHTML = '✅ Thanks! Your registration was received. You should get a WhatsApp confirmation shortly.';
-          form.reset();
-        } else {
-          console.log('POST failed', res.status, text);
-          msg.className = 'msg err';
-          msg.innerHTML = '⚠️ Registration failed. Please try again.';
-        }
-      } catch (err) {
-        console.error('Fetch error', err);
-        msg.className = 'msg err';
-        msg.innerHTML = '⚠️ Network error – please try again.';
-      } finally {
-        msg.style.display = 'block';
-        btn.disabled = false; btn.textContent = 'Register';
-      }
+      // Post to Apps Script without leaving the page
+      btn.disabled = true; btn.textContent = 'Submitting…';
+      form.action = ENDPOINT;
+      form.method = 'POST';
+      form.target = 'lmsSink';
+      form.submit();
     });
   </script>
 </body>
