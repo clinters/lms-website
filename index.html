@@ -1,17 +1,16 @@
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
-  <meta charset="utf-8"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1"/>
-  <meta name="facebook-domain-verification" content="m1nx8wzokc053lvjrdd3mw9vwcwyv0" />
-  <title>LMS Sports Club</title>
-  
-  <!-- ✅ Favicon -->
-  <link rel="icon" type="image/x-icon" href="favicon.ico" />
-
-  <meta name="description" content="Private, invitation-only weekly Premier League selections via WhatsApp. Simple, opt-in updates with clear privacy."/>
-  <meta name="theme-color" content="#5e17eb"/>
-  <style>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<meta content="m1nx8wzokc053lvjrdd3mw9vwcwyv0" name="facebook-domain-verification"/>
+<title>LMS Sports Club · Operated by Paul Clinton</title>
+<!-- ✅ Favicon -->
+<link href="favicon.ico" rel="icon" type="image/x-icon"/>
+<meta content="Private, invitation-only weekly Premier League selections via WhatsApp. Simple, opt-in updates with clear privacy." name="description"/>
+<meta content="#5e17eb" name="theme-color"/>
+<style>
     :root{
       --bg:#0e1024; --panel:#121536; --brand:#5e17eb; --accent:#00e091;
       --text:#ececf6; --muted:#a7a9c6; --link:#7ab3ff; --border:rgba(255,255,255,.1);
@@ -57,92 +56,81 @@
   </style>
 </head>
 <body>
-  <header>
-    <div class="brand">
-      <div class="badge">LMS</div>
-      <div style="text-align:left">
-        <div style="opacity:.9;font-weight:800">LMS Sports Club</div>
-        <div class="muted" style="font-size:.95rem">Private weekly fixtures and selections via WhatsApp (opt‑in only).</div>
-      </div>
-    </div>
-    <h1>Weekly Premier League Selections</h1>
-    <p class="sub">Invitation‑only updates handled on WhatsApp. We send fixtures; you choose a team each week. Simple, private, low‑noise.</p>
-  </header>
-
-  <main>
-    <section class="cols">
-      <div>
-        <h2>Join</h2>
-        <form id="reg" novalidate>
-          <label for="name">Name</label>
-          <input id="name" name="name" type="text" required placeholder="Alex Smith" />
-
-          <label for="phone">WhatsApp number (incl. country code)</label>
-          <input id="phone" name="phone" type="tel" inputmode="tel" required placeholder="+447712345678" />
-
-          <label for="email">Email (optional)</label>
-          <input id="email" name="email" type="email" placeholder="you@example.com" />
-
-          <div class="row" style="margin:.9rem 0 1rem">
-            <input type="checkbox" id="agree" name="agree" required style="width:auto" />
-            <label for="agree" class="muted">I agree to the <a href="#" data-open="rules">Rules</a> and <a href="#" data-open="privacy">Privacy Policy</a>.</label>
-          </div>
-
-          <button id="submitBtn" type="submit">Register</button>
-          <div id="msg" class="msg" aria-live="polite"></div>
-        </form>
-      </div>
-
-      <div>
-        <h2>How it works</h2>
-        <p>We’ll send fixtures for each gameweek. Pick one team before the cutoff. You can change your choice until then.</p>
-        <p><span class="pill">Private & invitation‑only</span> &nbsp; <span class="pill">Opt‑in via form</span> &nbsp; <span class="pill">No marketing</span></p>
-        <p><a href="#" data-open="rules">Read the Rules</a> · <a href="#" data-open="privacy">Privacy</a></p>
-      </div>
-    </section>
-  </main>
-
-  <!-- Rules Modal -->
-  <div id="modal-rules" class="modal" role="dialog" aria-modal="true" aria-labelledby="rules-title">
-    <div class="card">
-      <button class="close" data-close>Close</button>
-      <h3 id="rules-title">LMS Sports Club – Rules</h3>
-      <div class="body">
-        <ul>
-          <li>Each week we share the Premier League fixtures. Choose one team before the cutoff time.</li>
-          <li>If no choice is received, the system may select a default based on standings and previous choices.</li>
-          <li>You won’t be asked to choose the same team again in the same cycle.</li>
-          <li>If a match is postponed after the cutoff, the panel result is used; if before, we’ll ask for a new choice.</li>
-          <li>This is a private, invitation‑only activity for a small group of participants.</li>
-        </ul>
-      </div>
-    </div>
-  </div>
-
-  <!-- Privacy Modal -->
-  <div id="modal-privacy" class="modal" role="dialog" aria-modal="true" aria-labelledby="privacy-title">
-    <div class="card">
-      <button class="close" data-close>Close</button>
-      <h3 id="privacy-title">Privacy Policy</h3>
-      <div class="body">
-        <p><strong>Data we collect</strong>: name, WhatsApp number, and (optional) email to run weekly selections (record choices, send fixtures and confirmations).</p>
-        <p><strong>How it’s used</strong>: we send opt‑in, transactional messages only (no marketing, no third‑party sharing).</p>
-        <p><strong>Retention</strong>: stored in Google Sheets for the current cycle and up to 12 months for audit, then removed.</p>
-        <p><strong>Your choices</strong>: request access/correction/deletion anytime via the admin; reply STOP to opt out of messages.</p>
-        <p><strong>Scope</strong>: private club – no public advertising, no unsolicited messages.</p>
-        <p><strong>Contact</strong>: LMS Admin · clinters@me.com · Wirral, CH43 7QE · +447874469812</p>
-      </div>
-    </div>
-  </div>
-
-  <footer>
-    <p class="muted">© LMS Sports Club. Private weekly selections via WhatsApp.</p>
-  </footer>
-
-  <!-- Hidden iframe sink for classic POST (avoids CORS/redirect issues) -->
-  <iframe id="lmsSink" name="lmsSink" style="display:none;"></iframe>
-
-  <script>
+<header>
+<div class="brand">
+<div class="badge">LMS</div>
+<div style="text-align:left">
+<div style="opacity:.9;font-weight:800">LMS Sports Club</div>
+<div class="muted" style="font-size:.95rem">Private weekly fixtures and selections via WhatsApp (opt‑in only).</div>
+</div>
+</div>
+<h1>Weekly Premier League Selections</h1><p class="muted">Operated by Paul Clinton (legal business name).</p>
+<p class="sub">Invitation‑only updates handled on WhatsApp. We send fixtures; you choose a team each week. Simple, private, low‑noise.</p>
+</header>
+<main>
+<section class="cols">
+<div>
+<h2>Join</h2>
+<form id="reg" novalidate="">
+<label for="name">Name</label>
+<input id="name" name="name" placeholder="Alex Smith" required="" type="text"/>
+<label for="phone">WhatsApp number (incl. country code)</label>
+<input id="phone" inputmode="tel" name="phone" placeholder="+447712345678" required="" type="tel"/>
+<label for="email">Email (optional)</label>
+<input id="email" name="email" placeholder="you@example.com" type="email"/>
+<div class="row" style="margin:.9rem 0 1rem">
+<input id="agree" name="agree" required="" style="width:auto" type="checkbox"/>
+<label class="muted" for="agree">I agree to the <a data-open="rules" href="#">Rules</a> and <a data-open="privacy" href="#">Privacy Policy</a>.</label>
+</div>
+<button id="submitBtn" type="submit">Register</button>
+<div aria-live="polite" class="msg" id="msg"></div>
+</form>
+</div>
+<div>
+<h2>How it works</h2>
+<p>We’ll send fixtures for each gameweek. Pick one team before the cutoff. You can change your choice until then.</p>
+<p><span class="pill">Private &amp; invitation‑only</span>   <span class="pill">Opt‑in via form</span>   <span class="pill">No marketing</span></p>
+<p><a data-open="rules" href="#">Read the Rules</a> · <a data-open="privacy" href="#">Privacy</a></p>
+</div>
+</section>
+<section id="legal-about"><h2>About &amp; Legal</h2><p>Legal business name: Paul Clinton. Trading name: LMS Sports Club.</p><p class="muted">For verification: This website and the WhatsApp service are operated by Paul Clinton.</p></section></main>
+<!-- Rules Modal -->
+<div aria-labelledby="rules-title" aria-modal="true" class="modal" id="modal-rules" role="dialog">
+<div class="card">
+<button class="close" data-close="">Close</button>
+<h3 id="rules-title">LMS Sports Club – Rules</h3>
+<div class="body">
+<ul>
+<li>Each week we share the Premier League fixtures. Choose one team before the cutoff time.</li>
+<li>If no choice is received, the system may select a default based on standings and previous choices.</li>
+<li>You won’t be asked to choose the same team again in the same cycle.</li>
+<li>If a match is postponed after the cutoff, the panel result is used; if before, we’ll ask for a new choice.</li>
+<li>This is a private, invitation‑only activity for a small group of participants.</li>
+</ul>
+</div>
+</div>
+</div>
+<!-- Privacy Modal -->
+<div aria-labelledby="privacy-title" aria-modal="true" class="modal" id="modal-privacy" role="dialog">
+<div class="card">
+<button class="close" data-close="">Close</button>
+<h3 id="privacy-title">Privacy Policy</h3>
+<div class="body"><p><strong>Data Controller</strong>: Paul Clinton (legal business name).</p><p><strong>Legal name</strong>: Paul Clinton. This site is operated by Paul Clinton trading as LMS Sports Club.</p>
+<p><strong>Data we collect</strong>: name, WhatsApp number, and (optional) email to run weekly selections (record choices, send fixtures and confirmations).</p>
+<p><strong>How it’s used</strong>: we send opt‑in, transactional messages only (no marketing, no third‑party sharing).</p>
+<p><strong>Retention</strong>: stored in Google Sheets for the current cycle and up to 12 months for audit, then removed.</p>
+<p><strong>Your choices</strong>: request access/correction/deletion anytime via the admin; reply STOP to opt out of messages.</p>
+<p><strong>Scope</strong>: private club – no public advertising, no unsolicited messages.</p>
+<p><strong>Contact</strong>: LMS Admin · clinters@me.com · Wirral, CH43 7QE · +447874469812</p>
+</div>
+</div>
+</div>
+<footer>
+<p class="muted">© 2025 Paul Clinton · Trading as LMS Sports Club. Private weekly selections via WhatsApp.</p>
+</footer>
+<!-- Hidden iframe sink for classic POST (avoids CORS/redirect issues) -->
+<iframe id="lmsSink" name="lmsSink" style="display:none;"></iframe>
+<script>
     // Modal open/close
     document.querySelectorAll('[data-open="rules"]').forEach(a=>a.addEventListener('click',e=>{e.preventDefault();document.getElementById('modal-rules').classList.add('open');}));
     document.querySelectorAll('[data-open="privacy"]').forEach(a=>a.addEventListener('click',e=>{e.preventDefault();document.getElementById('modal-privacy').classList.add('open');}));
