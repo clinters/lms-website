@@ -1,21 +1,185 @@
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>West Kirby Pitch Bot - Policies</title>
-  <style>
-    body { font-family: Arial, sans-serif; margin: 2em; line-height: 1.6; }
-    h1 { color: #e67e22; }
-    a { color: #2980b9; text-decoration: none; }
-    a:hover { text-decoration: underline; }
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<meta content="m1nx8wzokc053lvjrdd3mw9vwcwyv0" name="facebook-domain-verification"/>
+<title>LMS Sports Club · Operated by Paul Clinton</title>
+<!-- ✅ Favicon -->
+<link href="favicon.ico" rel="icon" type="image/x-icon"/>
+<meta content="Private, invitation-only weekly Premier League selections via WhatsApp. Simple, opt-in updates with clear privacy." name="description"/>
+<meta content="#5e17eb" name="theme-color"/>
+<style>
+    :root{
+      --bg:#0e1024; --panel:#121536; --brand:#5e17eb; --accent:#00e091;
+      --text:#ececf6; --muted:#a7a9c6; --link:#7ab3ff; --border:rgba(255,255,255,.1);
+      --ok:#10b981; --err:#ef4444; --shadow:0 12px 36px rgba(0,0,0,.35); --radius:16px;
+    }
+    *{box-sizing:border-box}
+    html,body{margin:0;background:radial-gradient(1200px 600px at 80% -10%, #1b1d47 0%, #0e1024 50%, #0a0b1b 100%);color:var(--text);font:16px/1.6 system-ui,Segoe UI,Inter,Roboto,Arial,sans-serif}
+    header{padding:64px 20px 20px;text-align:center}
+    .brand{display:inline-grid;grid-auto-flow:column;gap:.7rem;align-items:center;justify-content:center}
+    .badge{width:46px;height:46px;border-radius:14px;background:linear-gradient(180deg,#6b2bff,#5e17eb);display:grid;place-items:center;box-shadow:0 8px 20px rgba(94,23,235,.35);font-weight:800;letter-spacing:.8px}
+    h1{margin:12px 0 6px;font-size:clamp(28px,5vw,44px)}
+    .sub{max-width:860px;margin:0 auto;color:var(--muted)}
+    main{max-width:980px;margin:28px auto 80px;padding:0 20px;display:grid;gap:18px}
+    section{background:linear-gradient(180deg,rgba(255,255,255,.03),rgba(255,255,255,.015));border:1px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow);padding:28px}
+    .cols{display:grid;gap:18px}
+    @media(min-width:860px){.cols{grid-template-columns:1.1fr .9fr}}
+    h2{margin:.2rem 0 1rem;font-size:22px}
+
+    label{display:block;margin:.65rem 0 .35rem}
+    input[type="text"],input[type="tel"],input[type="email"]{
+      width:100%;padding:.9rem 1rem;border-radius:12px;border:1px solid var(--border);background:#0f1230;color:var(--text)
+    }
+    input:focus{outline:2px solid #6b2bff;outline-offset:2px}
+    button{width:100%;padding:.95rem 1rem;border-radius:12px;border:none;background:linear-gradient(180deg,#6b2bff,#5e17eb);color:#fff;font-weight:700;cursor:pointer}
+    button[disabled]{opacity:.6;cursor:not-allowed}
+    a{color:var(--link);text-decoration:none}
+    .muted{color:var(--muted)}
+    .row{display:flex;gap:.6rem;align-items:center}
+    .pill{display:inline-block;padding:.35rem .6rem;background:rgba(0,224,145,.16);color:#b9ffe5;border:1px solid rgba(0,224,145,.25);border-radius:999px;font-size:.9rem}
+    footer{max-width:980px;margin:0 auto 56px;padding:0 20px;color:var(--muted);text-align:center}
+
+    .msg{display:none;margin-top:14px;padding:12px 14px;border-radius:12px}
+    .msg.ok{display:block;background:rgba(16,185,129,.12);border:1px solid rgba(16,185,129,.4);color:#d1fae5}
+    .msg.err{display:block;background:rgba(239,68,68,.12);border:1px solid rgba(239,68,68,.4);color:#fee2e2}
+
+    .modal{position:fixed;inset:0;background:rgba(0,0,0,.55);display:none;align-items:center;justify-content:center;padding:20px;z-index:50}
+    .modal.open{display:flex}
+    .card{max-width:880px;width:min(880px,100%);background:#0f112c;border:1px solid var(--border);border-radius:16px;padding:22px 20px 18px;box-shadow:var(--shadow)}
+    .card h3{margin:.2rem 0 .6rem}
+    .card .body{max-height:70vh;overflow:auto}
+    .close{float:right;background:#21244a;border:none;color:#eaeaf3;padding:.45rem .75rem;border-radius:10px;cursor:pointer}
+    ul{padding-left:1.1rem}
   </style>
 </head>
 <body>
-  <h1>West Kirby Pitch Bot</h1>
-  <p>Welcome to the official policy pages for the West Kirby Pitch Bot WhatsApp integration.</p>
-  <ul>
-    <li><a href="privacy-policy.html">Privacy Policy</a></li>
-    <li><a href="data-deletion.html">Data Deletion Instructions</a></li>
-  </ul>
+<header>
+<div class="brand">
+<div class="badge">LMS</div>
+<div style="text-align:left">
+<div style="opacity:.9;font-weight:800">LMS Sports Club</div>
+<div class="muted" style="font-size:.95rem">Private weekly fixtures and selections via WhatsApp (opt‑in only).</div>
+</div>
+</div>
+<h1>Weekly Premier League Selections</h1><p class="muted">Operated by Paul Clinton (legal business name).</p>
+<p class="sub">Invitation‑only updates handled on WhatsApp. We send fixtures; you choose a team each week. Simple, private, low‑noise.</p>
+</header>
+<main>
+<section class="cols">
+<div>
+<h2>Join</h2>
+<form id="reg" novalidate="">
+<label for="name">Name</label>
+<input id="name" name="name" placeholder="Alex Smith" required="" type="text"/>
+<label for="phone">WhatsApp number (incl. country code)</label>
+<input id="phone" inputmode="tel" name="phone" placeholder="+447712345678" required="" type="tel"/>
+<label for="email">Email (optional)</label>
+<input id="email" name="email" placeholder="you@example.com" type="email"/>
+<div class="row" style="margin:.9rem 0 1rem">
+<input id="agree" name="agree" required="" style="width:auto" type="checkbox"/>
+<label class="muted" for="agree">I agree to the <a data-open="rules" href="#">Rules</a> and <a data-open="privacy" href="#">Privacy Policy</a>.</label>
+</div>
+<button id="submitBtn" type="submit">Register</button>
+<div aria-live="polite" class="msg" id="msg"></div>
+</form>
+</div>
+<div>
+<h2>How it works</h2>
+<p>We’ll send fixtures for each gameweek. Pick one team before the cutoff. You can change your choice until then.</p>
+<p><span class="pill">Private &amp; invitation‑only</span>   <span class="pill">Opt‑in via form</span>   <span class="pill">No marketing</span></p>
+<p><a data-open="rules" href="#">Read the Rules</a> · <a data-open="privacy" href="#">Privacy</a></p>
+</div>
+</section>
+<section id="legal-about"><h2>About &amp; Legal</h2><p>Legal business name: Paul Clinton. Trading name: LMS Sports Club.</p><p class="muted">For verification: This website and the WhatsApp service are operated by Paul Clinton.</p></section></main>
+<!-- Rules Modal -->
+<div aria-labelledby="rules-title" aria-modal="true" class="modal" id="modal-rules" role="dialog">
+<div class="card">
+<button class="close" data-close="">Close</button>
+<h3 id="rules-title">LMS Sports Club – Rules</h3>
+<div class="body">
+<ul>
+<li>Each week we share the Premier League fixtures. Choose one team before the cutoff time.</li>
+<li>If no choice is received, the system may select a default based on standings and previous choices.</li>
+<li>You won’t be asked to choose the same team again in the same cycle.</li>
+<li>If a match is postponed after the cutoff, the panel result is used; if before, we’ll ask for a new choice.</li>
+<li>This is a private, invitation‑only activity for a small group of participants.</li>
+</ul>
+</div>
+</div>
+</div>
+<!-- Privacy Modal -->
+<div aria-labelledby="privacy-title" aria-modal="true" class="modal" id="modal-privacy" role="dialog">
+<div class="card">
+<button class="close" data-close="">Close</button>
+<h3 id="privacy-title">Privacy Policy</h3>
+<div class="body"><p><strong>Data Controller</strong>: Paul Clinton (legal business name).</p><p><strong>Legal name</strong>: Paul Clinton. This site is operated by Paul Clinton trading as LMS Sports Club.</p>
+<p><strong>Data we collect</strong>: name, WhatsApp number, and (optional) email to run weekly selections (record choices, send fixtures and confirmations).</p>
+<p><strong>How it’s used</strong>: we send opt‑in, transactional messages only (no marketing, no third‑party sharing).</p>
+<p><strong>Retention</strong>: stored in Google Sheets for the current cycle and up to 12 months for audit, then removed.</p>
+<p><strong>Your choices</strong>: request access/correction/deletion anytime via the admin; reply STOP to opt out of messages.</p>
+<p><strong>Scope</strong>: private club – no public advertising, no unsolicited messages.</p>
+<p><strong>Contact</strong>: LMS Admin · clinters@me.com · Wirral, CH43 7QE · +447874469812</p>
+</div>
+</div>
+</div>
+<footer>
+<p class="muted">© 2025 Paul Clinton · Trading as LMS Sports Club. Private weekly selections via WhatsApp.</p>
+<p><a href="https://clinters.github.io/privacy.html" target="_blank">Privacy Policy</a></p>
+</footer>
+<!-- Hidden iframe sink for classic POST (avoids CORS/redirect issues) -->
+<iframe id="lmsSink" name="lmsSink" style="display:none;"></iframe>
+<script>
+    // Modal open/close
+    document.querySelectorAll('[data-open="rules"]').forEach(a=>a.addEventListener('click',e=>{e.preventDefault();document.getElementById('modal-rules').classList.add('open');}));
+    document.querySelectorAll('[data-open="privacy"]').forEach(a=>a.addEventListener('click',e=>{e.preventDefault();document.getElementById('modal-privacy').classList.add('open');}));
+    document.querySelectorAll('[data-close]').forEach(b=>b.addEventListener('click',()=>b.closest('.modal').classList.remove('open')));
+    document.querySelectorAll('.modal').forEach(m=>m.addEventListener('click',e=>{ if(e.target===m) m.classList.remove('open'); }));
+
+    // Normalise phone (+44 etc)
+    const phone = document.getElementById('phone');
+    phone.addEventListener('blur', () => {
+      let p = phone.value.trim();
+      if (p.startsWith('00')) p = '+' + p.slice(2);
+      if (!p.startsWith('+')) p = '+' + p.replace(/[^\\d]/g,'');
+      p = p.replace(/\\s+/g,'');
+      phone.value = p;
+    });
+
+    // Classic POST into hidden iframe
+    const form = document.getElementById('reg');
+    const btn  = document.getElementById('submitBtn');
+    const msg  = document.getElementById('msg');
+    const sink = document.getElementById('lmsSink');
+    const ENDPOINT = "https://script.google.com/macros/s/AKfycbz5vb3AIYTjD7BRk7yHIx4zDrtqUasjtcMLf0NDQunX2Mmt_FIJZGNWcqr9I8h0Yg8/exec";
+
+    // Ignore first iframe load
+    let firstLoad = true;
+    sink.addEventListener('load', () => {
+      if (firstLoad) { firstLoad = false; return; }
+      btn.disabled = false; btn.textContent = 'Register';
+      msg.className = 'msg ok';
+      msg.innerHTML = '✅ Thanks! Your registration was received. You should get a WhatsApp confirmation shortly.';
+      msg.style.display = 'block';
+      form.reset();
+    });
+
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      if (!form.checkValidity()) { form.reportValidity(); return; }
+
+      // normalise phone
+      phone.dispatchEvent(new Event('blur'));
+
+      // Post to Apps Script without leaving the page
+      btn.disabled = true; btn.textContent = 'Submitting…';
+      form.action = ENDPOINT;
+      form.method = 'POST';
+      form.target = 'lmsSink';
+      form.submit();
+    });
+  </script>
 </body>
 </html>
